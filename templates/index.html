@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Centrum Zarządzania Incydentami</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <header class="page-header">
+        <div>
+            <h1>Centrum Zarządzania Incydentami</h1>
+            <p>System rejestracji i obsługi incydentów cyberbezpieczeństwa</p>
+        </div>
+        <div class="top-actions">
+            <button class="theme-toggle" onclick="toggleTheme()" title="Zmień motyw" id="themeBtn">🌙</button>
+            <a class="btn secondary" href="{{ url_for('seed') }}">+ 25 testowych</a>
+            <a class="btn danger" href="{{ url_for('clear') }}"
+               onclick="return confirm('Usunąć wszystkie zgłoszenia?')">🗑 Wyczyść</a>
+        </div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- DASHBOARD n DIAGRAM -->
+    <div class="dashboard-grid">
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-top">
+                    <div class="stat-icon">📋</div>
+                </div>
+                <div class="stat-value">{{ stats.total }}</div>
+                <div class="stat-label">Wszystkie</div>
+                <div class="stat-bar"><div class="stat-bar-fill" style="width: 100%"></div></div>
+            </div>
+
+            <div class="stat-card stat-critical">
+                <div class="stat-top">
+                    <div class="stat-icon">🚨</div>
+                    <span class="stat-trend" style="background: rgba(220,38,38,0.12); color: #dc2626;">
+                        {{ stats.critical_pct }}%
+                    </span>
+                </div>
+                <div class="stat-value">{{ stats.critical }}</div>
+                <div class="stat-label">Krytyczne</div>
+                <div class="stat-bar"><div class="stat-bar-fill" style="width: {{ stats.critical_pct }}%"></div></div>
+            </div>
+
+            <div class="stat-card stat-progress">
+                <div class="stat-top">
+                    <div class="stat-icon">⚙️</div>
+                    <span class="stat-trend" style="background: rgba(245,158,11,0.12); color: #f59e0b;">
+                        {{ stats.in_progress_pct }}%
+                    </span>
+                </div>
+                <div class="stat-value">{{ stats.in_progress }}</div>
+                <div class="stat-label">W trakcie</div>
+                <div class="stat-bar"><div class="stat-bar-fill" style="width: {{ stats.in_progress_pct }}%"></div></div>
+            </div>
+
+            <div class="stat-card stat-closed">
+                <div class="stat-top">
+                    <div class="stat-icon">✅</div>
+                    <span class="stat-trend">{{ stats.closed_pct }}%</span>
+                </div>
+                <div class="stat-value">{{ stats.closed }}</div>
+                <div class="stat-label">Zamknięte</div>
+                <div class="stat-bar"><div class="stat-bar-fill" style="width: {{ stats.closed_pct }}%"></div></div>
+            </div>
+        </div>
+
+        <!-- PIE CHART -->
+        <div class="chart-card">
+            <h3>Rozkład priorytetów</h3>
+            <div class="chart-wrapper">
+                {% set p = stats.by_priority %}
+                {% set crit_end = p.critical_pct %}
+                {% set high_end = crit_end + p.high_pct %}
+                {% set med_end = high_end + p.medium_pct %}
+                <div class="donut" style="background: conic-gradient(
+                    #dc2626 0% {{ crit_end }}%,
+                    #ea580c {{ crit_end }}% {{ high_end }}%,
+                    #d97706 {{ high_end }}% {{ med_end }}%,
+                    #16a34a {{ med_end }}% 100%
+                );">
+                    <div class="donut-center">
+                        <strong>{{ stats.total }}</strong>
+                        <span>Razem</span>
+                    </div>
+                </div>
+                <div class="legend">
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background:#dc2626"></span>
+                        <span class="legend-label">Krytyczny</span>
+                        <span class="legend-value">{{ p.critical }}</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background:#ea580c"></span>
+                        <span class="legend-label">Wysoki</span>
+                        <span class="legend-value">{{ p.high }}</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background:#d97706"></span>
+                        <span class="legend-label">Średni</span>
+                        <span class="legend-value">{{ p.medium }}</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background:#16a34a"></span>
+                        <span class="legend-label">Niski</span>
+                        <span class="legend-value">{{ p.low }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layout">
+        <section class="panel">
+            <h2>Nowe zgłoszenie</h2>
+
+            <form method="POST">
+                <div class="grid">
+                    <label>Imię<input type="text" name="first_name" required></label>
+                    <label>Nazwisko<input type="text" name="last_name" required></label>
+                </div>
+                <div class="grid">
+                    <label>E-mail<input type="email" name="email" required></label>
+                    <label>Telefon<input type="tel" name="phone" required></label>
+                </div>
+                <label>Tytuł incydentu<input type="text" name="title" maxlength="120" required></label>
+                <label>Opis problemu<textarea name="description" rows="6" required></textarea></label>
+                <div class="grid">
+                    <label>Pilność
+                        <select name="urgency" required>
+                            <option value="">Wybierz...</option>
+                            <option value="Niska">Niska</option>
+                            <option value="Średnia">Średnia</option>
+                            <option value="Wysoka">Wysoka</option>
+                        </select>
+                    </label>
+                    <label>Wpływ
+                        <select name="impact" required>
+                            <option value="">Wybierz...</option>
+                            <option value="Niski">Niski</option>
+                            <option value="Średni">Średni</option>
+                            <option value="Wysoki">Wysoki</option>
+                        </select>
+                    </label>
+                </div>
+                <button type="submit" class="btn primary">Zgłoś incydent</button>
+            </form>
+        </section>
+
+        <section class="panel">
+            <div class="queue-header">
+                <h2>Kolejka incydentów</h2>
+                <span class="counter">{{ incidents|length }} zgłoszeń</span>
+            </div>
+
+            <form method="GET" class="filter-bar">
+                <input type="text" name="search" placeholder="🔍 Szukaj po ID, e-mail lub tytule..."
+                       value="{{ search }}">
+                <select name="priority">
+                    <option value="">Wszystkie priorytety</option>
+                    {% for p in priorities %}
+                        <option value="{{ p }}" {% if priority_filter == p %}selected{% endif %}>{{ p }}</option>
+                    {% endfor %}
+                </select>
+                <select name="status">
+                    <option value="">Wszystkie statusy</option>
+                    {% for s in statuses %}
+                        <option value="{{ s }}" {% if status_filter == s %}selected{% endif %}>{{ s }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn primary">Filtruj</button>
+                <a class="btn secondary" href="{{ url_for('index') }}">Wyczyść</a>
+            </form>
+
+            {% if incidents %}
+                <div class="incident-list">
+                    {% for incident in incidents %}
+                        <a href="{{ url_for('incident_detail', incident_id=incident['id']) }}" class="incident-link">
+                            <article class="incident-card
+                                {% if incident['priority'] == 'Krytyczny' %}critical
+                                {% elif incident['priority'] == 'Wysoki' %}high
+                                {% elif incident['priority'] == 'Średni' %}medium
+                                {% else %}low{% endif %}">
+
+                                <div class="incident-top">
+                                    <div class="incident-title-wrapper">
+                                        <span class="incident-id">ID #{{ incident['id'] }}</span>
+                                        <div class="incident-title-row">
+                                            <span class="type-icon">{{ incident['title']|type_icon }}</span>
+                                            <h3>{{ incident['title'] }}</h3>
+                                        </div>
+                                    </div>
+                                    <div class="badges">
+                                        <span class="badge">{{ incident['priority'] }}</span>
+                                        <span class="status-badge status-{{ incident['status']|replace(' ', '-') }}">
+                                            {{ incident['status'] }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <p class="incident-description">{{ incident['description'] }}</p>
+
+                                <div class="incident-meta">
+                                    <span>👤 {{ incident['first_name'] }} {{ incident['last_name'] }}</span>
+                                    <span>✉️ {{ incident['email'] }}</span>
+                                    <span class="time-ago">⏱ {{ incident['created_at']|time_ago }}</span>
+                                </div>
+                            </article>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty">Brak zgłoszeń pasujących do filtrów.</div>
+            {% endif %}
+        </section>
+    </div>
+</div>
+
+<script>
+    function toggleTheme() {
+        const html = document.documentElement;
+        const current = html.getAttribute('data-theme');
+        const newTheme = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        document.getElementById('themeBtn').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    }
+    (function() {
+        const saved = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', saved);
+        const btn = document.getElementById('themeBtn');
+        if (btn) btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+    })();
+</script>
+</body>
+</html>

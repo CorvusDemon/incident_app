@@ -20,8 +20,8 @@
 
 ## 🖼️ Screenshots
 
-<img width="1025" height="2568" alt="127 0 0 1_5000_" src="https://github.com/user-attachments/assets/3cbbdb2c-427b-49fc-9a84-707b8dfacb8b" />
-<img width="1025" height="2520" alt="127 0 0 1_5000_ (2)" src="https://github.com/user-attachments/assets/64e16209-9b60-41c8-9b67-aa6878fb2a19" />
+<img width="1025" height="3730" alt="127 0 0 1_5000_ (4)" src="https://github.com/user-attachments/assets/efbf6c02-ecf8-4090-9e87-688bd13d0a1b" />
+<img width="1025" height="2473" alt="127 0 0 1_5000_ (6)" src="https://github.com/user-attachments/assets/e506c41d-32bb-4d29-8c00-9df879073e0b" />
 <img width="1025" height="1440" alt="127 0 0 1_5000_incident_102" src="https://github.com/user-attachments/assets/39811eee-8e33-4ff4-87ec-d5c4a7648c88" />
 
 ## 🚀 Quick Start

@@ -8,19 +8,19 @@ app.secret_key = "dev-secret-key"
 DB_NAME = "incidents.db"
 
 PRIORITY_MATRIX = {
-    ("Wysoka", "Wysoki"): "Krytyczny",
-    ("Wysoka", "Średni"): "Wysoki",
-    ("Wysoka", "Niski"): "Średni",
-    ("Średnia", "Wysoki"): "Wysoki",
-    ("Średnia", "Średni"): "Średni",
-    ("Średnia", "Niski"): "Niski",
-    ("Niska", "Wysoki"): "Średni",
-    ("Niska", "Średni"): "Niski",
-    ("Niska", "Niski"): "Niski",
+    ("High", "High"): "Critical",
+    ("High", "Medium"): "High",
+    ("High", "Low"): "Medium",
+    ("Medium", "High"): "High",
+    ("Medium", "Medium"): "Medium",
+    ("Medium", "Low"): "Low",
+    ("Low", "High"): "Medium",
+    ("Low", "Medium"): "Low",
+    ("Low", "Low"): "Low",
 }
 
-ALLOWED_STATUSES = ["Nowe", "W trakcie", "Zamknięte"]
-ALLOWED_PRIORITIES = ["Krytyczny", "Wysoki", "Średni", "Niski"]
+ALLOWED_STATUSES = ["New", "In Progress", "Closed"]
+ALLOWED_PRIORITIES = ["Critical", "High", "Medium", "Low"]
 
 
 # ===========================================
@@ -46,7 +46,7 @@ def init_db():
             urgency TEXT NOT NULL,
             impact TEXT NOT NULL,
             priority TEXT NOT NULL,
-            status TEXT NOT NULL DEFAULT 'Nowe',
+            status TEXT NOT NULL DEFAULT 'New',
             created_at TEXT NOT NULL,
             updated_at TEXT NOT NULL
         )
@@ -73,7 +73,7 @@ def add_log(conn, incident_id, action, details=""):
 
 
 def calculate_priority(urgency, impact):
-    return PRIORITY_MATRIX.get((urgency, impact), "Niski")
+    return PRIORITY_MATRIX.get((urgency, impact), "Low")
 
 
 # ==============================
@@ -87,18 +87,18 @@ def time_ago(date_str):
     diff = datetime.now() - past
     seconds = int(diff.total_seconds())
     if seconds < 60:
-        return "przed chwilą"
+        return "just now"
     minutes = seconds // 60
     if minutes < 60:
-        return f"{minutes} min temu"
+        return f"{minutes}m ago"
     hours = minutes // 60
     if hours < 24:
-        return f"{hours} godz. temu"
+        return f"{hours}h ago"
     days = hours // 24
     if days < 30:
-        return f"{days} dni temu"
+        return f"{days}d ago"
     months = days // 30
-    return f"{months} mies. temu"
+    return f"{months}mo ago"
 
 
 def get_type_icon(title):
@@ -106,19 +106,19 @@ def get_type_icon(title):
     t = title.lower()
     if "phish" in t or "e-mail" in t or "email" in t or "mail" in t:
         return "📧"
-    if "vpn" in t or "logowani" in t or "konto" in t:
+    if "vpn" in t or "login" in t or "account" in t or "logowani" in t or "konto" in t:
         return "🔐"
-    if "malware" in t or "wirus" in t or "antywir" in t or "infek" in t:
+    if "malware" in t or "virus" in t or "antivir" in t or "infect" in t or "wirus" in t or "antywir" in t or "infek" in t:
         return "🦠"
     if "edr" in t or "alert" in t or "monitor" in t:
         return "🚨"
-    if "laptop" in t or "urządze" in t or "sprzęt" in t:
+    if "laptop" in t or "device" in t or "hardware" in t or "urządze" in t or "sprzęt" in t:
         return "💻"
-    if "sieć" in t or "ruch" in t or "network" in t:
+    if "network" in t or "traffic" in t or "sieć" in t or "ruch" in t:
         return "🌐"
-    if "wyciek" in t or "dane" in t or "chmur" in t:
+    if "leak" in t or "data" in t or "cloud" in t or "exfiltr" in t or "wyciek" in t or "dane" in t or "chmur" in t:
         return "📤"
-    if "dostęp" in t or "uprawni" in t:
+    if "access" in t or "privilege" in t or "permission" in t or "dostęp" in t or "uprawni" in t:
         return "🔑"
     return "⚠️"
 
@@ -145,7 +145,7 @@ def index():
         impact = request.form.get("impact", "").strip()
 
         if not all([first_name, last_name, email, phone, title, description, urgency, impact]):
-            flash("Wypełnij wszystkie pola formularza.", "error")
+            flash("Please fill in all required fields.", "error")
             return redirect(url_for("index"))
 
         priority = calculate_priority(urgency, impact)
@@ -156,16 +156,16 @@ def index():
             INSERT INTO incidents
             (first_name, last_name, email, phone, title, description,
              urgency, impact, priority, status, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Nowe', ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'New', ?, ?)
         """, (first_name, last_name, email, phone, title, description,
               urgency, impact, priority, now, now))
         new_id = cursor.lastrowid
-        add_log(conn, new_id, "Utworzono incydent",
-                f"Priorytet: {priority}, Pilność: {urgency}, Wpływ: {impact}")
+        add_log(conn, new_id, "Incident created",
+                f"Priority: {priority}, Urgency: {urgency}, Impact: {impact}")
         conn.commit()
         conn.close()
 
-        flash(f"Incydent #{new_id} został zapisany. Priorytet: {priority}.", "success")
+        flash(f"Incident #{new_id} has been recorded. Priority: {priority}.", "success")
         return redirect(url_for("index"))
 
     # Filtering/search options
@@ -195,10 +195,10 @@ def index():
     query += """
         ORDER BY
             CASE priority
-                WHEN 'Krytyczny' THEN 1
-                WHEN 'Wysoki' THEN 2
-                WHEN 'Średni' THEN 3
-                WHEN 'Niski' THEN 4
+                WHEN 'Critical' THEN 1
+                WHEN 'High' THEN 2
+                WHEN 'Medium' THEN 3
+                WHEN 'Low' THEN 4
                 ELSE 5
             END,
             id DESC
@@ -209,12 +209,12 @@ def index():
 
     # Statistics
     total = conn.execute("SELECT COUNT(*) AS c FROM incidents").fetchone()["c"]
-    critical = conn.execute("SELECT COUNT(*) AS c FROM incidents WHERE priority = 'Krytyczny'").fetchone()["c"]
-    high = conn.execute("SELECT COUNT(*) AS c FROM incidents WHERE priority = 'Wysoki'").fetchone()["c"]
-    medium = conn.execute("SELECT COUNT(*) AS c FROM incidents WHERE priority = 'Średni'").fetchone()["c"]
-    low = conn.execute("SELECT COUNT(*) AS c FROM incidents WHERE priority = 'Niski'").fetchone()["c"]
-    in_progress = conn.execute("SELECT COUNT(*) AS c FROM incidents WHERE status = 'W trakcie'").fetchone()["c"]
-    closed = conn.execute("SELECT COUNT(*) AS c FROM incidents WHERE status = 'Zamknięte'").fetchone()["c"]
+    critical = conn.execute("SELECT COUNT(*) AS c FROM incidents WHERE priority = 'Critical'").fetchone()["c"]
+    high = conn.execute("SELECT COUNT(*) AS c FROM incidents WHERE priority = 'High'").fetchone()["c"]
+    medium = conn.execute("SELECT COUNT(*) AS c FROM incidents WHERE priority = 'Medium'").fetchone()["c"]
+    low = conn.execute("SELECT COUNT(*) AS c FROM incidents WHERE priority = 'Low'").fetchone()["c"]
+    in_progress = conn.execute("SELECT COUNT(*) AS c FROM incidents WHERE status = 'In Progress'").fetchone()["c"]
+    closed = conn.execute("SELECT COUNT(*) AS c FROM incidents WHERE status = 'Closed'").fetchone()["c"]
 
     safe_total = total if total > 0 else 1
     stats = {
@@ -283,7 +283,7 @@ def update_status(incident_id):
     new_status = request.form.get("status", "").strip()
 
     if new_status not in ALLOWED_STATUSES:
-        flash("Nieprawidłowy status.", "error")
+        flash("Invalid status value.", "error")
         return redirect(url_for("incident_detail", incident_id=incident_id))
 
     conn = get_db_connection()
@@ -298,7 +298,7 @@ def update_status(incident_id):
     old_status = incident["status"]
     if old_status == new_status:
         conn.close()
-        flash("Status pozostał bez zmian.", "info")
+        flash("Status remained unchanged.", "info")
         return redirect(url_for("incident_detail", incident_id=incident_id))
 
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -309,13 +309,13 @@ def update_status(incident_id):
     add_log(
         conn,
         incident_id,
-        "Zmiana statusu",
+        "Status updated",
         f"{old_status} → {new_status}"
     )
     conn.commit()
     conn.close()
 
-    flash(f"Status zaktualizowany: {old_status} → {new_status}.", "success")
+    flash(f"Status updated: {old_status} → {new_status}.", "success")
     return redirect(url_for("incident_detail", incident_id=incident_id))
 
 
@@ -327,27 +327,27 @@ def seed():
     first_names = ["Anna", "Jan", "Piotr", "Maria", "Katarzyna", "Tomasz", "Michal", "Ewa"]
     last_names = ["Kowalski", "Nowak", "Wisniewski", "Wojcik", "Mazur", "Krawczyk", "Kaminski", "Zielinski"]
     titles = [
-        "Podejrzany e-mail phishingowy",
-        "Alert z systemu EDR",
-        "Nieautoryzowane logowanie do VPN",
-        "Utrata sluzbowego laptopa",
-        "Nietypowy ruch sieciowy",
-        "Wylaczony antywirus na stacji roboczej",
-        "Proba dostepu do danych poza godzinami pracy",
-        "Podejrzenie infekcji malware",
-        "Masowe blokowanie kont uzytkownikow",
-        "Mozliwy wyciek danych do chmury",
+        "Suspicious phishing email reported",
+        "EDR endpoint detection alert",
+        "Unauthorized VPN login attempt",
+        "Missing corporate laptop reported",
+        "Anomalous outbound network traffic",
+        "Antivirus disabled on workstation",
+        "After-hours privileged data access attempt",
+        "Suspected malware infection on host",
+        "Mass user account lockout spike",
+        "Potential cloud storage data leak",
     ]
     descriptions = [
-        "Uzytkownik zglosil podejrzana aktywnosc. Nalezy przeanalizowac logi i potwierdzic naruszenie.",
-        "System monitoringu wykryl zdarzenie mogace wskazywac na incydent cyberbezpieczenstwa.",
-        "Zgloszenie wymaga weryfikacji zrodla problemu i oceny ryzyka.",
+        "User reported suspicious activity. Review endpoint logs and verify potential compromise.",
+        "Monitoring system flagged an anomaly indicating a possible cybersecurity incident.",
+        "Report requires source verification, containment check, and risk assessment.",
     ]
 
     count = conn.execute("SELECT COUNT(*) AS total FROM incidents").fetchone()["total"]
     if count >= 20:
         conn.close()
-        flash("Baza zawiera już dane.", "info")
+        flash("Database already contains sample data.", "info")
         return redirect(url_for("index"))
 
     for i in range(25):
@@ -355,10 +355,10 @@ def seed():
         last = random.choice(last_names)
         title = random.choice(titles)
         description = random.choice(descriptions)
-        urgency = random.choice(["Niska", "Średnia", "Wysoka"])
-        impact = random.choice(["Niski", "Średni", "Wysoki"])
+        urgency = random.choice(["Low", "Medium", "High"])
+        impact = random.choice(["Low", "Medium", "High"])
         priority = calculate_priority(urgency, impact)
-        email = f"user{i+1}@firma.pl"
+        email = f"user{i+1}@company.com"
         phone = f"+48 5{random.randint(10,99)} {random.randint(100,999)} {random.randint(100,999)}"
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -366,15 +366,15 @@ def seed():
             INSERT INTO incidents
             (first_name, last_name, email, phone, title, description,
              urgency, impact, priority, status, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Nowe', ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'New', ?, ?)
         """, (first, last, email, phone, title, description,
               urgency, impact, priority, now, now))
-        add_log(conn, cursor.lastrowid, "Utworzono incydent",
-                f"Wygenerowany testowy. Priorytet: {priority}")
+        add_log(conn, cursor.lastrowid, "Incident created",
+                f"Seeded sample record. Priority: {priority}")
 
     conn.commit()
     conn.close()
-    flash("Dodano 25 przykładowych incydentów.", "success")
+    flash("Added 25 sample incidents.", "success")
     return redirect(url_for("index"))
 
 
@@ -386,7 +386,7 @@ def clear():
     conn.execute("DELETE FROM audit_log")
     conn.commit()
     conn.close()
-    flash("Wszystkie zgłoszenia zostały usunięte.", "info")
+    flash("All incidents have been cleared.", "info")
     return redirect(url_for("index"))
 
 

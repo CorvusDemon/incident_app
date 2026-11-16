@@ -15,8 +15,9 @@
 - **Detailed incident card** + full change history (audit log)
 - **Beautiful dashboard statistics** with interactive pie chart
 - **Dark / Light mode** support
-- **Modern, responsive and clean UI** (glassmorphism + gradients)
+- **Clean, responsive SOC-style UI** (Light / Dark mode, live priority preview, timeline audit trail)
 - **One-click test data seeding** (25 realistic incidents)
+- **Windows quick launcher** (`start.bat`)
 
 ## 🖼️ Screenshots
 
@@ -52,6 +53,7 @@ pip install -r requirements.txt
 ```bash
 python app.py
 ```
+*(Or double-click `start.bat` on Windows to launch automatically.)*
 
 Open your browser and go to: [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
@@ -71,7 +73,9 @@ incident_app/
 │   ├── index.html            # Main page + registration form
 │   └── incident.html         # Incident detail page
 ├── static/
-│   └── style.css             # Modern UI + dark/light mode
+│   ├── style.css             # Responsive Light / Dark SOC UI
+│   └── theme.js              # Theme toggle & live priority preview
+├── start.bat                 # Windows one-click launcher
 └── incidents.db              # Database (do not commit in production)
 ```
 

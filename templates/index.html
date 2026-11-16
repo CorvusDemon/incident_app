@@ -1,246 +1,404 @@
+{% macro category_icon(title) -%}
+    {%- set t = title|lower -%}
+    {%- if 'phish' in t or 'e-mail' in t or 'email' in t or 'mail' in t -%}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+    {%- elif 'vpn' in t or 'login' in t or 'account' in t or 'logowani' in t or 'konto' in t -%}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    {%- elif 'malware' in t or 'virus' in t or 'antivir' in t or 'infect' in t or 'wirus' in t or 'antywir' in t or 'infek' in t -%}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M20.97 5c0 2.1-1.6 3.8-3.5 4"/><path d="M22 13h-4"/><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4"/></svg>
+    {%- elif 'edr' in t or 'alert' in t or 'monitor' in t -%}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    {%- elif 'laptop' in t or 'device' in t or 'hardware' in t or 'urządze' in t or 'sprzęt' in t -%}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/></svg>
+    {%- elif 'network' in t or 'traffic' in t or 'sieć' in t or 'ruch' in t -%}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+    {%- elif 'leak' in t or 'data' in t or 'cloud' in t or 'wyciek' in t or 'dane' in t or 'chmur' in t -%}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 13v8"/><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="m8 17 4-4 4 4"/></svg>
+    {%- elif 'access' in t or 'privilege' in t or 'permission' in t or 'dostęp' in t or 'uprawni' in t -%}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg>
+    {%- else -%}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+    {%- endif -%}
+{%- endmacro -%}
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Centrum Zarządzania Incydentami</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Management Center</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231d4ed8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/%3E%3Cpath d='M9 12h2l1.5-3 2 6 1.5-3H18'/%3E%3C/svg%3E">
+    <script>
+        (function () {
+            var t = localStorage.getItem("theme");
+            if (!t && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                t = "dark";
+            }
+            document.documentElement.setAttribute("data-theme", t === "dark" ? "dark" : "light");
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='theme.js') }}" defer></script>
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
 <div class="container">
     <header class="page-header">
-        <div>
-            <h1>Centrum Zarządzania Incydentami</h1>
-            <p>System rejestracji i obsługi incydentów cyberbezpieczeństwa</p>
+        <div class="brand-block">
+            <div class="brand-mark" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="M9 12h2l1.5-3 2 6 1.5-3H18"/>
+                </svg>
+            </div>
+            <div>
+                <div class="title-row">
+                    <h1>Incident Management Center</h1>
+                    {% if stats.critical > 0 %}
+                        <span class="telemetry-pill alert">
+                            <span class="telemetry-dot" aria-hidden="true"></span>
+                            {{ stats.critical }} critical triage
+                        </span>
+                    {% else %}
+                        <span class="telemetry-pill">
+                            <span class="telemetry-dot" aria-hidden="true"></span>
+                            SOC Active
+                        </span>
+                    {% endif %}
+                </div>
+                <p class="page-subtitle">Security incident intake, priority triage, and audit trail</p>
+            </div>
         </div>
         <div class="top-actions">
-            <button class="theme-toggle" onclick="toggleTheme()" title="Zmień motyw" id="themeBtn">🌙</button>
-            <a class="btn secondary" href="{{ url_for('seed') }}">+ 25 testowych</a>
-            <a class="btn danger" href="{{ url_for('clear') }}"
-               onclick="return confirm('Usunąć wszystkie zgłoszenia?')">🗑 Wyczyść</a>
+            <button type="button" class="theme-toggle" id="themeBtn" aria-label="Switch theme" aria-pressed="false" title="Switch theme">
+                <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                </svg>
+                <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="4"/>
+                    <path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+                    <path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                </svg>
+            </button>
+            <a class="btn secondary" href="{{ url_for('seed') }}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                Seed 25
+            </a>
+            <a class="btn danger" href="{{ url_for('clear') }}" data-confirm="Delete all incident records?">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                Clear All
+            </a>
         </div>
     </header>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            {% for category, message in messages %}
-                <div class="flash {{ category }}">{{ message }}</div>
-            {% endfor %}
+            <div class="flash-stack" role="status" aria-live="polite">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">
+                        <span class="flash-icon" aria-hidden="true">
+                            {% if category == 'success' %}
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                            {% elif category == 'error' %}
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                            {% else %}
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                            {% endif %}
+                        </span>
+                        <span>{{ message }}</span>
+                    </div>
+                {% endfor %}
+            </div>
         {% endif %}
     {% endwith %}
 
-    <!-- DASHBOARD n DIAGRAM -->
-    <div class="dashboard-grid">
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-top">
-                    <div class="stat-icon">📋</div>
+    <main id="main-content">
+        <section class="dashboard-grid" aria-label="Incident summary">
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="stat-label-row">
+                            <span class="stat-icon" aria-hidden="true">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16h3"/><path d="M7 11h7"/><path d="M7 6h11"/></svg>
+                            </span>
+                            <span class="stat-label">All</span>
+                        </div>
+                        <span class="stat-trend">100%</span>
+                    </div>
+                    <div class="stat-value">{{ stats.total }}</div>
+                    <div class="stat-bar"><div class="stat-bar-fill" style="width: {{ 100 if stats.total > 0 else 0 }}%"></div></div>
                 </div>
-                <div class="stat-value">{{ stats.total }}</div>
-                <div class="stat-label">Wszystkie</div>
-                <div class="stat-bar"><div class="stat-bar-fill" style="width: 100%"></div></div>
+
+                <div class="stat-card stat-critical {% if stats.critical > 0 %}is-active{% endif %}">
+                    <div class="stat-top">
+                        <div class="stat-label-row">
+                            <span class="stat-icon" aria-hidden="true">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                            </span>
+                            <span class="stat-label">Critical</span>
+                        </div>
+                        <span class="stat-trend">{{ stats.critical_pct }}%</span>
+                    </div>
+                    <div class="stat-value">{{ stats.critical }}</div>
+                    <div class="stat-bar"><div class="stat-bar-fill" style="width: {{ stats.critical_pct }}%"></div></div>
+                </div>
+
+                <div class="stat-card stat-progress">
+                    <div class="stat-top">
+                        <div class="stat-label-row">
+                            <span class="stat-icon" aria-hidden="true">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </span>
+                            <span class="stat-label">In Progress</span>
+                        </div>
+                        <span class="stat-trend">{{ stats.in_progress_pct }}%</span>
+                    </div>
+                    <div class="stat-value">{{ stats.in_progress }}</div>
+                    <div class="stat-bar"><div class="stat-bar-fill" style="width: {{ stats.in_progress_pct }}%"></div></div>
+                </div>
+
+                <div class="stat-card stat-closed">
+                    <div class="stat-top">
+                        <div class="stat-label-row">
+                            <span class="stat-icon" aria-hidden="true">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                            </span>
+                            <span class="stat-label">Closed</span>
+                        </div>
+                        <span class="stat-trend">{{ stats.closed_pct }}%</span>
+                    </div>
+                    <div class="stat-value">{{ stats.closed }}</div>
+                    <div class="stat-bar"><div class="stat-bar-fill" style="width: {{ stats.closed_pct }}%"></div></div>
+                </div>
             </div>
 
-            <div class="stat-card stat-critical">
-                <div class="stat-top">
-                    <div class="stat-icon">🚨</div>
-                    <span class="stat-trend" style="background: rgba(220,38,38,0.12); color: #dc2626;">
-                        {{ stats.critical_pct }}%
-                    </span>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h2>Priority Breakdown</h2>
                 </div>
-                <div class="stat-value">{{ stats.critical }}</div>
-                <div class="stat-label">Krytyczne</div>
-                <div class="stat-bar"><div class="stat-bar-fill" style="width: {{ stats.critical_pct }}%"></div></div>
-            </div>
-
-            <div class="stat-card stat-progress">
-                <div class="stat-top">
-                    <div class="stat-icon">⚙️</div>
-                    <span class="stat-trend" style="background: rgba(245,158,11,0.12); color: #f59e0b;">
-                        {{ stats.in_progress_pct }}%
-                    </span>
-                </div>
-                <div class="stat-value">{{ stats.in_progress }}</div>
-                <div class="stat-label">W trakcie</div>
-                <div class="stat-bar"><div class="stat-bar-fill" style="width: {{ stats.in_progress_pct }}%"></div></div>
-            </div>
-
-            <div class="stat-card stat-closed">
-                <div class="stat-top">
-                    <div class="stat-icon">✅</div>
-                    <span class="stat-trend">{{ stats.closed_pct }}%</span>
-                </div>
-                <div class="stat-value">{{ stats.closed }}</div>
-                <div class="stat-label">Zamknięte</div>
-                <div class="stat-bar"><div class="stat-bar-fill" style="width: {{ stats.closed_pct }}%"></div></div>
-            </div>
-        </div>
-
-        <!-- PIE CHART -->
-        <div class="chart-card">
-            <h3>Rozkład priorytetów</h3>
-            <div class="chart-wrapper">
-                {% set p = stats.by_priority %}
-                {% set crit_end = p.critical_pct %}
-                {% set high_end = crit_end + p.high_pct %}
-                {% set med_end = high_end + p.medium_pct %}
-                <div class="donut" style="background: conic-gradient(
-                    #dc2626 0% {{ crit_end }}%,
-                    #ea580c {{ crit_end }}% {{ high_end }}%,
-                    #d97706 {{ high_end }}% {{ med_end }}%,
-                    #16a34a {{ med_end }}% 100%
-                );">
-                    <div class="donut-center">
-                        <strong>{{ stats.total }}</strong>
-                        <span>Razem</span>
+                <div class="chart-wrapper">
+                    {% set p = stats.by_priority %}
+                    {% set crit_end = p.critical_pct %}
+                    {% set high_end = crit_end + p.high_pct %}
+                    {% set med_end = high_end + p.medium_pct %}
+                    <div class="donut{% if stats.total == 0 %} donut-empty{% endif %}"
+                         {% if stats.total > 0 %}
+                         style="background: conic-gradient(
+                            #dc2626 0% {{ crit_end }}%,
+                            #ea580c {{ crit_end }}% {{ high_end }}%,
+                            #d97706 {{ high_end }}% {{ med_end }}%,
+                            #16a34a {{ med_end }}% 100%
+                         );"
+                         {% endif %}
+                         aria-hidden="true">
+                        <div class="donut-center">
+                            <strong>{{ stats.total }}</strong>
+                            <span>Total</span>
+                        </div>
                     </div>
-                </div>
-                <div class="legend">
-                    <div class="legend-item">
-                        <span class="legend-dot" style="background:#dc2626"></span>
-                        <span class="legend-label">Krytyczny</span>
-                        <span class="legend-value">{{ p.critical }}</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-dot" style="background:#ea580c"></span>
-                        <span class="legend-label">Wysoki</span>
-                        <span class="legend-value">{{ p.high }}</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-dot" style="background:#d97706"></span>
-                        <span class="legend-label">Średni</span>
-                        <span class="legend-value">{{ p.medium }}</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-dot" style="background:#16a34a"></span>
-                        <span class="legend-label">Niski</span>
-                        <span class="legend-value">{{ p.low }}</span>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background: var(--critical-dot)"></span>
+                            <span class="legend-label">Critical</span>
+                            <span class="legend-value">{{ p.critical }}</span>
+                            <span class="legend-pct">{{ p.critical_pct }}%</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background: var(--high-dot)"></span>
+                            <span class="legend-label">High</span>
+                            <span class="legend-value">{{ p.high }}</span>
+                            <span class="legend-pct">{{ p.high_pct }}%</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background: var(--medium-dot)"></span>
+                            <span class="legend-label">Medium</span>
+                            <span class="legend-value">{{ p.medium }}</span>
+                            <span class="legend-pct">{{ p.medium_pct }}%</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background: var(--low-dot)"></span>
+                            <span class="legend-label">Low</span>
+                            <span class="legend-value">{{ p.low }}</span>
+                            <span class="legend-pct">{{ p.low_pct }}%</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="layout">
-        <section class="panel">
-            <h2>Nowe zgłoszenie</h2>
-
-            <form method="POST">
-                <div class="grid">
-                    <label>Imię<input type="text" name="first_name" required></label>
-                    <label>Nazwisko<input type="text" name="last_name" required></label>
-                </div>
-                <div class="grid">
-                    <label>E-mail<input type="email" name="email" required></label>
-                    <label>Telefon<input type="tel" name="phone" required></label>
-                </div>
-                <label>Tytuł incydentu<input type="text" name="title" maxlength="120" required></label>
-                <label>Opis problemu<textarea name="description" rows="6" required></textarea></label>
-                <div class="grid">
-                    <label>Pilność
-                        <select name="urgency" required>
-                            <option value="">Wybierz...</option>
-                            <option value="Niska">Niska</option>
-                            <option value="Średnia">Średnia</option>
-                            <option value="Wysoka">Wysoka</option>
-                        </select>
-                    </label>
-                    <label>Wpływ
-                        <select name="impact" required>
-                            <option value="">Wybierz...</option>
-                            <option value="Niski">Niski</option>
-                            <option value="Średni">Średni</option>
-                            <option value="Wysoki">Wysoki</option>
-                        </select>
-                    </label>
-                </div>
-                <button type="submit" class="btn primary">Zgłoś incydent</button>
-            </form>
         </section>
 
-        <section class="panel">
-            <div class="queue-header">
-                <h2>Kolejka incydentów</h2>
-                <span class="counter">{{ incidents|length }} zgłoszeń</span>
-            </div>
+        <div class="layout">
+            <section class="panel" aria-labelledby="new-incident-heading">
+                <div class="panel-header">
+                    <div>
+                        <h2 id="new-incident-heading">Report Incident</h2>
+                        <p class="panel-subtitle">Priority calculated via Urgency × Impact matrix</p>
+                    </div>
+                </div>
 
-            <form method="GET" class="filter-bar">
-                <input type="text" name="search" placeholder="🔍 Szukaj po ID, e-mail lub tytule..."
-                       value="{{ search }}">
-                <select name="priority">
-                    <option value="">Wszystkie priorytety</option>
-                    {% for p in priorities %}
-                        <option value="{{ p }}" {% if priority_filter == p %}selected{% endif %}>{{ p }}</option>
-                    {% endfor %}
-                </select>
-                <select name="status">
-                    <option value="">Wszystkie statusy</option>
-                    {% for s in statuses %}
-                        <option value="{{ s }}" {% if status_filter == s %}selected{% endif %}>{{ s }}</option>
-                    {% endfor %}
-                </select>
-                <button type="submit" class="btn primary">Filtruj</button>
-                <a class="btn secondary" href="{{ url_for('index') }}">Wyczyść</a>
-            </form>
+                <form method="POST" class="form-stack">
+                    <div class="grid">
+                        <label class="field">
+                            <span class="field-label">First Name</span>
+                            <input type="text" name="first_name" autocomplete="given-name" required>
+                        </label>
+                        <label class="field">
+                            <span class="field-label">Last Name</span>
+                            <input type="text" name="last_name" autocomplete="family-name" required>
+                        </label>
+                    </div>
+                    <div class="grid">
+                        <label class="field">
+                            <span class="field-label">Email</span>
+                            <input type="email" name="email" autocomplete="email" required>
+                        </label>
+                        <label class="field">
+                            <span class="field-label">Phone</span>
+                            <input type="tel" name="phone" autocomplete="tel" required>
+                        </label>
+                    </div>
+                    <label class="field">
+                        <span class="field-label">Incident Title</span>
+                        <input type="text" name="title" maxlength="120" required>
+                    </label>
+                    <label class="field">
+                        <span class="field-label">Description</span>
+                        <textarea name="description" rows="5" required></textarea>
+                    </label>
+                    <div class="grid">
+                        <label class="field">
+                            <span class="field-label">Urgency</span>
+                            <select name="urgency" required>
+                                <option value="">Select...</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </label>
+                        <label class="field">
+                            <span class="field-label">Impact</span>
+                            <select name="impact" required>
+                                <option value="">Select...</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </label>
+                    </div>
 
-            {% if incidents %}
-                <div class="incident-list">
-                    {% for incident in incidents %}
-                        <a href="{{ url_for('incident_detail', incident_id=incident['id']) }}" class="incident-link">
-                            <article class="incident-card
-                                {% if incident['priority'] == 'Krytyczny' %}critical
-                                {% elif incident['priority'] == 'Wysoki' %}high
-                                {% elif incident['priority'] == 'Średni' %}medium
-                                {% else %}low{% endif %}">
+                    <div class="matrix-preview" aria-live="polite">
+                        <span>Estimated priority</span>
+                        <span id="priorityPreview" class="matrix-idle">Select Urgency &amp; Impact</span>
+                    </div>
 
-                                <div class="incident-top">
-                                    <div class="incident-title-wrapper">
-                                        <span class="incident-id">ID #{{ incident['id'] }}</span>
-                                        <div class="incident-title-row">
-                                            <span class="type-icon">{{ incident['title']|type_icon }}</span>
-                                            <h3>{{ incident['title'] }}</h3>
+                    <button type="submit" class="btn primary btn-block">Submit Incident</button>
+                </form>
+            </section>
+
+            <section class="panel" aria-labelledby="queue-heading">
+                <div class="panel-header">
+                    <div>
+                        <h2 id="queue-heading">Incident Queue</h2>
+                        <p class="panel-subtitle">Sorted by severity level and creation time</p>
+                    </div>
+                    <span class="counter">{{ incidents|length }} incidents</span>
+                </div>
+
+                <form method="GET" class="filter-bar" role="search" aria-label="Filter incident queue">
+                    <div class="search-field">
+                        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <label for="search-input" class="sr-only">Search by ID, email, or title</label>
+                        <input id="search-input" type="text" name="search" placeholder="Search by ID, email, or title..." value="{{ search }}">
+                    </div>
+                    <div>
+                        <label for="priority-filter" class="sr-only">Priority</label>
+                        <select id="priority-filter" name="priority">
+                            <option value="">All priorities</option>
+                            {% for p in priorities %}
+                                <option value="{{ p }}" {% if priority_filter == p %}selected{% endif %}>{{ p }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="status-filter" class="sr-only">Status</label>
+                        <select id="status-filter" name="status">
+                            <option value="">All statuses</option>
+                            {% for s in statuses %}
+                                <option value="{{ s }}" {% if status_filter == s %}selected{% endif %}>{{ s }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn primary">Filter</button>
+                    <a class="btn secondary" href="{{ url_for('index') }}">Reset</a>
+                </form>
+
+                {% if incidents %}
+                    <div class="incident-list">
+                        {% for incident in incidents %}
+                            <a href="{{ url_for('incident_detail', incident_id=incident['id']) }}" class="incident-link">
+                                <article class="incident-card
+                                    {% if incident['priority'] == 'Critical' or incident['priority'] == 'Krytyczny' %}critical
+                                    {% elif incident['priority'] == 'High' or incident['priority'] == 'Wysoki' %}high{% endif %}">
+                                    <div class="incident-top">
+                                        <div class="incident-title-wrapper">
+                                            <div class="incident-title-row">
+                                                <span class="incident-id">#{{ incident['id'] }}</span>
+                                                <span class="type-icon">{{ category_icon(incident['title']) }}</span>
+                                                <h3>{{ incident['title'] }}</h3>
+                                            </div>
+                                        </div>
+                                        <div class="badges">
+                                            <span class="badge
+                                                {% if incident['priority'] == 'Critical' or incident['priority'] == 'Krytyczny' %}badge-critical
+                                                {% elif incident['priority'] == 'High' or incident['priority'] == 'Wysoki' %}badge-high
+                                                {% elif incident['priority'] == 'Medium' or incident['priority'] == 'Średni' %}badge-medium
+                                                {% else %}badge-low{% endif %}">
+                                                {{ incident['priority'] }}
+                                            </span>
+                                            <span class="status-badge status-{{ incident['status']|replace(' ', '-') }}">
+                                                {{ incident['status'] }}
+                                            </span>
                                         </div>
                                     </div>
-                                    <div class="badges">
-                                        <span class="badge">{{ incident['priority'] }}</span>
-                                        <span class="status-badge status-{{ incident['status']|replace(' ', '-') }}">
-                                            {{ incident['status'] }}
+
+                                    <p class="incident-description">{{ incident['description'] }}</p>
+
+                                    <div class="incident-meta">
+                                        <span class="meta-item">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                            {{ incident['first_name'] }} {{ incident['last_name'] }}
+                                        </span>
+                                        <span class="meta-item">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                                            {{ incident['email'] }}
+                                        </span>
+                                        <span class="meta-item time-ago">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                            {{ incident['created_at']|time_ago }}
                                         </span>
                                     </div>
-                                </div>
-
-                                <p class="incident-description">{{ incident['description'] }}</p>
-
-                                <div class="incident-meta">
-                                    <span>👤 {{ incident['first_name'] }} {{ incident['last_name'] }}</span>
-                                    <span>✉️ {{ incident['email'] }}</span>
-                                    <span class="time-ago">⏱ {{ incident['created_at']|time_ago }}</span>
-                                </div>
-                            </article>
-                        </a>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="empty">Brak zgłoszeń pasujących do filtrów.</div>
-            {% endif %}
-        </section>
-    </div>
+                                </article>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty">
+                        <span class="empty-icon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+                        </span>
+                        {% if search or priority_filter or status_filter %}
+                            <p>No incidents match the selected filters.</p>
+                            <a class="btn secondary" href="{{ url_for('index') }}">Clear filters</a>
+                        {% else %}
+                            <p>The queue is empty. Submit a new incident or seed 25 sample records.</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </section>
+        </div>
+    </main>
 </div>
-
-<script>
-    function toggleTheme() {
-        const html = document.documentElement;
-        const current = html.getAttribute('data-theme');
-        const newTheme = current === 'dark' ? 'light' : 'dark';
-        html.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        document.getElementById('themeBtn').textContent = newTheme === 'dark' ? '☀️' : '🌙';
-    }
-    (function() {
-        const saved = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', saved);
-        const btn = document.getElementById('themeBtn');
-        if (btn) btn.textContent = saved === 'dark' ? '☀️' : '🌙';
-    })();
-</script>
 </body>
 </html>
